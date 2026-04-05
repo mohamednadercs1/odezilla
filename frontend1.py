@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import requests
 import time
 
-API_BASE = "http://localhost:8000"
+API_BASE = "https://web-production-35a16.up.railway.app"
 
 st.set_page_config(page_title="ODE AI Solver Pro", layout="wide")
 
