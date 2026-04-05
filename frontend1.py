@@ -142,7 +142,17 @@ elif page == "Solver":
                 "t_end":       t_end,
                 "solver_type": solver_type,
             })
-        if resp and resp.get("success"):
+        if resp and not resp.get("success"):
+            # ✅ Show validation / solver error clearly
+            st.error(resp.get("error", "❌ حصل خطأ"))
+            examples = resp.get("examples", [])
+            if examples:
+                st.markdown("**جرّب الأمثلة دي:**")
+                cols = st.columns(len(examples))
+                for i, ex in enumerate(examples):
+                    cols[i].code(ex)
+
+        elif resp and resp.get("success"):
             data = resp["data"]
             st.markdown(f'<div class="result-box"><h4>✅ {data.get("answer","N/A")}</h4></div>',
                         unsafe_allow_html=True)
@@ -154,7 +164,7 @@ elif page == "Solver":
                 with st.expander("📋 Solution Steps"):
                     for s in data["steps"]:
                         st.markdown(f"• {s}")
-            if "chart_data" in data:
+            if data.get("chart_data"):               
                 st.markdown("#### 📊 Solution Graph")
                 draw_chart(data["chart_data"],
                            title=data.get("model", data.get("equation","")))
