@@ -16,9 +16,12 @@ from modules.engine import NumericalSolver
 from modules.models import PhysicsMathModels
 from modules.explainer import explain_topic, list_topics
 from modules.quiz import QuizEngine
-from modules.Symbolic_solver import solve_symbolically, detect_ode_type, to_numerical_rhs
-_model_library = PhysicsMathModels()
+try:
+    from modules.symbolic_solver import solve_symbolically, detect_ode_type, to_numerical_rhs
+except ImportError:
+    from modules.Symbolic_solver import solve_symbolically, detect_ode_type, to_numerical_rhs
 
+_model_library = PhysicsMathModels()
 _MODEL_ALIASES = {
     "population":        "population_growth",
     "population growth": "population_growth",
