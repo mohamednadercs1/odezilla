@@ -160,14 +160,34 @@ elif page == "Solver":
             ca.metric("Method",   data.get("method","—"))
             cb.metric("ODE Type", data.get("type","—"))
             cc.metric("Points",   data.get("num_points","—"))
-            if "steps" in data:
+            # Symbolic Solution
+            if data.get("symbolic_solution"):
+                st.markdown("#### 🔣 Symbolic Solution")
+                st.markdown(f"""<div class="card">
+                <p><b>ODE Type:</b> <code>{data.get('ode_type','—')}</code></p>
+                <p><b>Solution:</b></p>
+                <p style="font-size:1.1em;color:#34d399;font-family:monospace">{data['symbolic_solution']}</p>
+                </div>""", unsafe_allow_html=True)
+                if data.get("dy_dx_form"):
+                    st.info(f"📐 {data['dy_dx_form']}")
+
+            # Symbolic Steps
+            if data.get("symbolic_steps"):
+                with st.expander("📋 Symbolic Steps"):
+                    for s in data["symbolic_steps"]:
+                        st.markdown(f"• {s}")
+            elif data.get("steps"):
                 with st.expander("📋 Solution Steps"):
                     for s in data["steps"]:
                         st.markdown(f"• {s}")
+
+            # Chart
             if data.get("chart_data"):               
                 st.markdown("#### 📊 Solution Graph")
                 draw_chart(data["chart_data"],
                            title=data.get("model", data.get("equation","")))
+            elif data.get("numerical_error"):
+                st.warning(f"⚠️ الرسم مش متاح: {data['numerical_error']}")
             st.session_state["solve_result"] = {
                 "type":   data.get("type",""),
                 "method": data.get("method","RK4"),
