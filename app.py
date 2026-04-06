@@ -12,7 +12,7 @@ import re
 import numpy as np
 from scipy.integrate import solve_ivp
 
-from modules.engine import NumericalSolver
+from modules.engine import SymPyNumericalSolver as NumericalSolver
 from modules.models import PhysicsMathModels
 from modules.explainer import explain_topic, list_topics
 from modules.quiz import QuizEngine
